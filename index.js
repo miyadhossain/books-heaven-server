@@ -52,6 +52,23 @@ client.connect((err) => {
     });
   });
 
+  // read or get database
+  app.get("/orders", (req, res) => {
+    // console.log(req.query.email);
+    ordersCollection.find({ email: req.query.email }).toArray((err, items) => {
+      res.send(items);
+    });
+  });
+
+  // delete
+  app.delete("/deleteBook/:id", (req, res) => {
+    booksCollection
+      .deleteOne({ _id: ObjectId(req.params.id) })
+      .then((result) => {
+        res.send(result.deletedCount > 0);
+      });
+  });
+
   console.log("MongoDB connect successfully");
 });
 
